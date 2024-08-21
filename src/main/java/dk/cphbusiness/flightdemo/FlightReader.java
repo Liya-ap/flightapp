@@ -27,10 +27,20 @@ public class FlightReader {
         FlightReader flightReader = new FlightReader();
         try {
             List<DTOs.FlightDTO> flightList = flightReader.getFlightsFromFile("flights.json");
+            /*
             List<DTOs.FlightInfo> flightInfoList = flightReader.getFlightInfoDetails(flightList);
             flightInfoList.forEach(f->{
                 System.out.println("\n"+f);
             });
+            */
+
+            String origin = "Pulkovo";
+            String destination = "Arkhangelsk";
+            List<DTOs.FlightDTO> flights = flightReader.getFlightsBetweenAirports(flightList, origin, destination);
+            flights.forEach(f->{
+                System.out.println("\n"+f);
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,6 +77,19 @@ public class FlightReader {
 
         List<DTOs.FlightDTO> flightList = Arrays.stream(flights).toList();
         return flightList;
+    }
+
+    public List<DTOs.FlightDTO> getFlightsBetweenAirports(List<DTOs.FlightDTO> flightList, String origin, String destination) {
+        List<DTOs.FlightDTO> flights = flightList.stream()
+                .filter(flight -> flight != null
+                        && flight.getDeparture() != null
+                        && flight.getDeparture().getAirport() != null
+                        && flight.getDeparture().getAirport().equals(origin)
+                        && flight.getArrival() != null
+                        && flight.getArrival().getAirport() != null
+                        && flight.getArrival().getAirport().equals(destination))
+                .toList();
+        return flights;
     }
 
 
