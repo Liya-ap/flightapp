@@ -43,6 +43,12 @@ public class FlightReader {
     }
 
 
+
+    //    public List<FlightDTO> jsonFromFile(String fileName) throws IOException {
+//        List<FlightDTO> flights = getObjectMapper().readValue(Paths.get(fileName).toFile(), List.class);
+//        return flights;
+//    }
+
     public List<DTOs.FlightInfo> getFlightInfoDetails(List<DTOs.FlightDTO> flightList) {
         List<DTOs.FlightInfo> flightInfoList = flightList.stream().map(flight -> {
             Duration duration = Duration.between(flight.getDeparture().getScheduled(), flight.getArrival().getScheduled());
