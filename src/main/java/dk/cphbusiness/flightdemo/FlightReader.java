@@ -28,12 +28,18 @@ public class FlightReader {
         try {
             List<DTOs.FlightDTO> flightList = flightReader.getFlightsFromFile("flights.json");
             List<DTOs.FlightInfo> flightInfoList = flightReader.getFlightInfoDetails(flightList);
-            flightInfoList.forEach(f->{
-                System.out.println("\n"+f);
+            flightInfoList.forEach(f -> {
+                System.out.println("\n" + f);
             });
+
+            String airline = "Lufthansa";
+            int totalFlightTime = flightReader.calculateTotalFlightTime(flightInfoList, airline);
+            System.out.println("\n" + "Den samlede tid for airline: " + airline + " Er: " + totalFlightTime + " Minutter");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -67,6 +73,15 @@ public class FlightReader {
 
         List<DTOs.FlightDTO> flightList = Arrays.stream(flights).toList();
         return flightList;
+    }
+
+    public int calculateTotalFlightTime(List<DTOs.FlightInfo> flightInfoList, String airline) {
+        return flightInfoList.stream()
+                .filter(flight -> flight != null && flight.getAirline() != null && flight.getAirline().equals(airline))
+                .filter(flight -> flight.getDuration() != null)
+                .mapToInt(flight -> (int) flight.getDuration().toMinutes())
+                .sum();
+
     }
 
 
