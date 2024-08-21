@@ -31,6 +31,11 @@ public class FlightReader {
             flightInfoList.forEach(f -> {
                 System.out.println("\n" + f);
             });
+
+            String airline = "ANA";
+            int totalFlightTime = flightReader.calculateTotalFlightTime(flightInfoList, airline);
+            System.out.println("\n" + "Den samlede tid for airline: " + airline + " Er: " + totalFlightTime + " Minutter");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,6 +73,15 @@ public class FlightReader {
 
         List<DTOs.FlightDTO> flightList = Arrays.stream(flights).toList();
         return flightList;
+    }
+
+    public int calculateTotalFlightTime(List<DTOs.FlightInfo> flightInfoList, String airline) {
+        return flightInfoList.stream()
+                .filter(flight -> flight != null && flight.getAirline() != null && flight.getAirline().equals(airline))
+                .filter(flight -> flight.getDuration() != null)
+                .mapToInt(flight -> (int) flight.getDuration().toMinutes())
+                .sum();
+
     }
 
 
