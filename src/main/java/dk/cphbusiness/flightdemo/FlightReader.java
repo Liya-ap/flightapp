@@ -32,7 +32,7 @@ public class FlightReader {
                 System.out.println("\n" + f);
             });
 
-            String airline = "ANA";
+            String airline = "Lufthansa";
             int totalFlightTime = flightReader.calculateTotalFlightTime(flightInfoList, airline);
             System.out.println("\n" + "Den samlede tid for airline: " + airline + " Er: " + totalFlightTime + " Minutter");
 
